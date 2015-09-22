@@ -1,1 +1,2 @@
-# Slider module
+# Simple Slider Module
+# Edited by damianc...
