@@ -1,1 +1,1 @@
-# Slider module
+# Simple Slider Module
