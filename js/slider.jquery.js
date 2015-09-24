@@ -5,20 +5,20 @@
 
         return this.each( function () {
 
-            var opts;
-            var slideshowDiv;
-            var that;
-            var slideTo;
-            var prevSlideButton;
-            var nextSlideButton;
-            var images;
-            var indicatorsDiv;
-            var indicator;
+            var options,
+                slideshowDiv,
+                element,
+                slideTo,
+                prevSlideButton,
+                nextSlideButton,
+                images,
+                indicatorsDiv,
+                indicator;
 
             /*
              * Options of the slideshow.
              */
-            opts = $.extend({
+            options = $.extend({
                 runWith: 0,
                 activeSlide: 0
             }, options);
@@ -28,7 +28,7 @@
              * Wrapping exisiting listed slides into the plugin's layer.
              */
             slideshowDiv = $('<div/>').addClass('slideshow');
-            that = $(this);
+            element = $(this);
             $(this).wrap(slideshowDiv);
 
 
@@ -36,10 +36,10 @@
              * Slides to the slide stated as argument passed or defaultly to first one.
              */
             slideTo = function (slide) {
-                slide = slide || opts.runWith;
-                opts.activeSlide = slide;
+                slide = slide || options.runWith;
+                options.activeSlide = slide;
 
-                that.css('left', ((+slide * 800) * -1) + 'px');
+                element.css('left', ((+slide * 800) * -1) + 'px');
 
                 $('.slideIndicator').removeClass('active');
                 $('.slideIndicator').filter('#' + slide).addClass('active');
@@ -72,12 +72,16 @@
             $('.slideButton').on('click', function () {
 
                 var button = $(this);
-                var activeSlide = opts.activeSlide;
+                var activeSlide = options.activeSlide;
                 var nextOne;
 
                 /* Previous and next slide button event. */
-                if (button.hasClass('prevSlideButton')) nextOne = (activeSlide > 0) ? activeSlide-1 : images-1;
-                if (button.hasClass('nextSlideButton')) nextOne = (activeSlide < images-1) ? activeSlide+1 : 0;
+                if (button.hasClass('prevSlideButton')) {
+                    nextOne = (activeSlide > 0) ? activeSlide-1 : images-1;
+                }
+                if (button.hasClass('nextSlideButton')) {
+                    nextOne = (activeSlide < images-1) ? activeSlide+1 : 0;
+                }
                 slideTo(nextOne);
 
             });
