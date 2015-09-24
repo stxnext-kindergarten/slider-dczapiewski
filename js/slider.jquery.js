@@ -61,9 +61,9 @@
              * Attaching events to previous and next slide buttons.
              */
             $('.slideButton').on('click', function () {
-                var button = $(this);
-                var activeSlide = options.activeSlide;
-                var nextOne;
+                var button = $(this),
+                    activeSlide = options.activeSlide,
+                    nextOne;
 
                 /* Previous and next slide button event. */
                 if (button.hasClass('prevSlideButton')) {
