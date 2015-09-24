@@ -1,8 +1,7 @@
 (function ($) {
     $.fn.slider = function (options) {
-
         return this.each( function () {
-            
+
             var options,
                 slideshowDiv,
                 element,
@@ -90,6 +89,5 @@
             slideTo();
 
         });
-
     };
 })(jQuery);
