@@ -61,7 +61,6 @@
              * Attaching events to previous and next slide buttons.
              */
             $('.slideButton').on('click', function () {
-
                 var button = $(this);
                 var activeSlide = options.activeSlide;
                 var nextOne;
@@ -74,7 +73,6 @@
                     nextOne = (activeSlide < images-1) ? activeSlide+1 : 0;
                 }
                 slideTo(nextOne);
-
             });
 
             $('.slideIndicator').on('click', function () {
