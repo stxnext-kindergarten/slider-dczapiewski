@@ -32,23 +32,23 @@
     height: 80px;
     background-repeat: no-repeat;
     background-position: center center;
-    background-color: rgba( 255, 255, 255, .5 );
+    background-color: rgba(255, 255, 255, .5);
     border-radius: 45px;
     transition: .45s;
     z-index: 1000;
 }
 
 .slideshow .slideButton:hover {
-    background-color: rgba( 255, 255, 255, .75 );
+    background-color: rgba(255, 255, 255, .75);
 }
 
 .slideshow .prevSlideButton {
-    background-image: url( '../images/arrow-left.png' );
+    background-image: url('../images/arrow-left.png');
     left: -20px;
 }
 
 .slideshow .nextSlideButton {
-    background-image: url( '../images/arrow-right.png' );
+    background-image: url('../images/arrow-right.png');
     right: -20px;
 }
 
@@ -66,7 +66,7 @@
     background-color: #333;
     margin: 20px 5px;
     border-radius: 12px;
-    border: solid 3px rgba( 255, 255, 255, .75 );
+    border: solid 3px rgba(255, 255, 255, .75);
     transition: .45s;
 }
 
