@@ -1,10 +1,8 @@
 (function ($) {
-
     $.fn.slider = function (options) {
 
-
         return this.each( function () {
-
+            
             var options,
                 slideshowDiv,
                 element,
@@ -23,14 +21,12 @@
                 activeSlide: 0
             }, options);
 
-
             /*
              * Wrapping exisiting listed slides into the plugin's layer.
              */
             slideshowDiv = $('<div/>').addClass('slideshow');
             element = $(this);
             $(this).wrap(slideshowDiv);
-
 
             /*
              * Slides to the slide stated as argument passed or defaultly to first one.
@@ -45,14 +41,12 @@
                 $('.slideIndicator').filter('#' + slide).addClass('active');
             };
 
-
             /*
              * Inserting previous and next slide buttons.
              */
             prevSlideButton = $('<div/>').addClass('slideButton prevSlideButton');
             nextSlideButton = $('<div/>').addClass('slideButton nextSlideButton');
             $(this).parent().append(prevSlideButton).append(nextSlideButton);
-
 
             /*
              * Rendering active slide indicators.
@@ -64,7 +58,6 @@
                 indicatorsDiv.append(indicator);
             }
             $(this).parent().append(indicatorsDiv);
-
 
             /*
              * Attaching events to previous and next slide buttons.
@@ -99,5 +92,4 @@
         });
 
     };
- 
 })(jQuery);
