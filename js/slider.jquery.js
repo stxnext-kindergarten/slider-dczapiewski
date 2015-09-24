@@ -11,7 +11,7 @@
                 indicatorsDiv,
                 indicator;
 
-            /*
+            /**
              * Options of the slideshow.
              */
             options = $.extend({
@@ -19,14 +19,14 @@
                 activeSlide: 0
             }, options);
 
-            /*
+            /**
              * Wrapping exisiting listed slides into the plugin's layer.
              */
             slideshowDiv = $('<div/>').addClass('slideshow');
             element = $(this);
             $(this).wrap(slideshowDiv);
 
-            /*
+            /**
              * Slides to the slide stated as argument passed or defaultly to first one.
              */
             slideTo = function (slide) {
@@ -39,14 +39,14 @@
                 $('.slideIndicator').filter('#' + slide).addClass('active');
             };
 
-            /*
+            /**
              * Inserting previous and next slide buttons.
              */
             prevSlideButton = $('<div/>').addClass('slideButton prevSlideButton');
             nextSlideButton = $('<div/>').addClass('slideButton nextSlideButton');
             $(this).parent().append(prevSlideButton).append(nextSlideButton);
 
-            /*
+            /**
              * Rendering active slide indicators.
              */
             images = $(this).find('li a img').length;
@@ -57,7 +57,7 @@
             }
             $(this).parent().append(indicatorsDiv);
 
-            /*
+            /**
              * Attaching events to previous and next slide buttons.
              */
             $('.slideButton').on('click', function () {
@@ -80,7 +80,7 @@
                 slideTo(activeSlide);
             });
 
-            /*
+            /**
              * Having had everything needed written go on to fire the plugin.
              */
             slideTo();
