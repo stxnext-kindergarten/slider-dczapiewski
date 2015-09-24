@@ -1,7 +1,6 @@
 (function ($) {
     $.fn.slider = function (options) {
         return this.each( function () {
-
             var options,
                 slideshowDiv,
                 element,
@@ -87,7 +86,6 @@
              * Having had everything needed written go on to fire the plugin.
              */
             slideTo();
-
         });
     };
 })(jQuery);
