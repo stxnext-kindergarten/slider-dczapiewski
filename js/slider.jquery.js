@@ -1,100 +1,81 @@
+/*!
+ * Slider jQuery Plugin
+ * Allows to create an image galerry.
+ */
+
 (function ($) {
+
     $.fn.slider = function (options) {
-        return this.each( function () {
-            var uuid,
-                options,
-                $slideshowDiv,
-                $element,
-                slideTo,
+
+        var config;
+        var utils;
+        var init;
+
+        config = $.extend({}, {
+            runWith: 0,
+            activeSlide: 0
+        }, options);
+
+        utils = {
+            nextSlide: function (slide, slidee) {
+                slide = slide || config.runWith;
+                config.activeSlide = slide;
+                slidee.css('left', ((+slide * 800) * -1) + 'px');
+
+                slidee.parent().children('.indicatorsDiv').children().removeClass('active');
+                slidee.parent().children('.indicatorsDiv').children().filter(function () {
+                    return $(this).data('slide') == slide;
+                }).addClass('active');
+            }
+        };
+
+        init = function init($element) {
+            var $slideshowDiv,
+                $elementParent,
+                $images,
                 $prevSlideButton,
                 $nextSlideButton,
-                images,
-                indicatorsDiv,
-                indicator;
+                $indicatorsDiv,
+                $indicator;
 
-            /**
-             * Generating UUID of the element so that none could be doubled.
-             */
-            uuid = 'slider-' + $('.slideshow').length;
-
-            /**
-             * Options of the slideshow.
-             */
-            options = $.extend({
-                runWith: 0,
-                activeSlide: 0
-            }, options);
-
-            /**
-             * Wrapping exisiting listed slides into the plugin's layer.
-             */
-            $slideshowDiv = $('<div/>', { id: uuid }).addClass('slideshow');
-            $element = $(this);
+            $slideshowDiv = $('<div/>').addClass('slideshow');
             $element.wrap($slideshowDiv);
+            $elementParent = $element.parent();
+            $images = $element.find('li a img').length;
 
-            /**
-             * Slides to the slide stated as argument passed or defaultly to first one.
-             */
-            slideTo = function (slide, sliderId) {
-                slide = slide || options.runWith;
-                sliderId = sliderId || uuid;
-                options.activeSlide = slide;
-
-                //$element.css('left', ((+slide * 800) * -1) + 'px');
-                $('#' + sliderId).children( 'ul' ).css('left', ((+slide * 800) * -1) + 'px');
-
-                $('#' + sliderId + ' .slideIndicator').removeClass('active');
-                $('#' + sliderId + ' .slideIndicator').filter('#' + slide).addClass('active');
-            };
-
-            /**
-             * Inserting previous and next slide buttons.
-             */
             $prevSlideButton = $('<div/>').addClass('slideButton prevSlideButton');
             $nextSlideButton = $('<div/>').addClass('slideButton nextSlideButton');
-            $(this).parent().append($prevSlideButton).append($nextSlideButton);
+            $elementParent.append($prevSlideButton).append($nextSlideButton);
 
-            /**
-             * Rendering active slide indicators.
-             */
-            images = $(this).find('li a img').length;
-            indicatorsDiv = $('<div/>').addClass('indicatorsDiv');
-            for (var i = 0; i < images; i++) {
-                indicator = $('<div/>', { id: i }).addClass('slideIndicator');
-                indicatorsDiv.append(indicator);
+            $prevSlideButton.click(function () {
+                nextOne = (config.activeSlide > 0) ? config.activeSlide-1 : $images-1;
+                utils.nextSlide(nextOne, $(this).parent().children('ul'));
+            });
+
+            $nextSlideButton.click(function () {
+                nextOne = (config.activeSlide < $images-1) ? config.activeSlide+1 : 0;
+                utils.nextSlide(nextOne, $(this).parent().children('ul'));
+            });
+
+            $indicatorsDiv = $('<div/>').addClass('indicatorsDiv');
+            for (var i = 0; i < $images; i++) {
+                $indicator = $('<div/>').addClass('slideIndicator').data('slide', i);
+                $indicatorsDiv.append($indicator);
+
+                $indicator.click(function () {
+                    var slide = ($(this).data('slide'));
+                    utils.nextSlide(slide, $(this).parent().parent().children('ul'));
+                });
             }
-            $(this).parent().append(indicatorsDiv);
+            $elementParent.append($indicatorsDiv);
 
-            /**
-             * Attaching events to previous and next slide buttons.
-             */
-            $('.slideButton').on('click', function () {
-                var button = $(this),
-                    sliderId = button.parent().prop('id'),
-                    activeSlide = options.activeSlide,
-                    nextOne;
+            utils.nextSlide(false, $element);
+        };
 
-                /* Previous and next slide button event. */
-                if (button.hasClass('prevSlideButton')) {
-                    nextOne = (activeSlide > 0) ? activeSlide-1 : images-1;
-                }
-                if (button.hasClass('nextSlideButton')) {
-                    nextOne = (activeSlide < images-1) ? activeSlide+1 : 0;
-                }
-                slideTo(nextOne, sliderId);
-            });
-
-            $('.slideIndicator').on('click', function () {
-                var indicator = $(this),
-                    activeSlide = indicator.prop('id'),
-                    sliderId = indicator.parent().parent().prop('id');
-                slideTo(activeSlide, sliderId);
-            });
-
-            /**
-             * Having had everything needed written go on to fire the plugin.
-             */
-            slideTo();
+        this.each(function () {
+            init($(this));
         });
+
+        return this;
     };
 })(jQuery);

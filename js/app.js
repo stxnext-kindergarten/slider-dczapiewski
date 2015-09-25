@@ -1,6 +1,6 @@
 (function ($) {
     $(document).ready(function () {
         $('#views-slides').slider();
-        $('#views-slides2').slider();
+        $('#animals-slides').slider();
     });
 })(jQuery);
