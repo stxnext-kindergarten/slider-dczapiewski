@@ -1,15 +1,21 @@
 (function ($) {
     $.fn.slider = function (options) {
         return this.each( function () {
-            var options,
-                slideshowDiv,
-                element,
+            var uuid,
+                options,
+                $slideshowDiv,
+                $element,
                 slideTo,
-                prevSlideButton,
-                nextSlideButton,
+                $prevSlideButton,
+                $nextSlideButton,
                 images,
                 indicatorsDiv,
                 indicator;
+
+            /**
+             * Generating UUID of the element so that none could be doubled.
+             */
+            uuid = 'slider-' + $('.slideshow').length;
 
             /**
              * Options of the slideshow.
@@ -22,29 +28,31 @@
             /**
              * Wrapping exisiting listed slides into the plugin's layer.
              */
-            slideshowDiv = $('<div/>').addClass('slideshow');
-            element = $(this);
-            $(this).wrap(slideshowDiv);
+            $slideshowDiv = $('<div/>', { id: uuid }).addClass('slideshow');
+            $element = $(this);
+            $element.wrap($slideshowDiv);
 
             /**
              * Slides to the slide stated as argument passed or defaultly to first one.
              */
-            slideTo = function (slide) {
+            slideTo = function (slide, sliderId) {
                 slide = slide || options.runWith;
+                sliderId = sliderId || uuid;
                 options.activeSlide = slide;
 
-                element.css('left', ((+slide * 800) * -1) + 'px');
+                //$element.css('left', ((+slide * 800) * -1) + 'px');
+                $('#' + sliderId).children( 'ul' ).css('left', ((+slide * 800) * -1) + 'px');
 
-                $('.slideIndicator').removeClass('active');
-                $('.slideIndicator').filter('#' + slide).addClass('active');
+                $('#' + sliderId + ' .slideIndicator').removeClass('active');
+                $('#' + sliderId + ' .slideIndicator').filter('#' + slide).addClass('active');
             };
 
             /**
              * Inserting previous and next slide buttons.
              */
-            prevSlideButton = $('<div/>').addClass('slideButton prevSlideButton');
-            nextSlideButton = $('<div/>').addClass('slideButton nextSlideButton');
-            $(this).parent().append(prevSlideButton).append(nextSlideButton);
+            $prevSlideButton = $('<div/>').addClass('slideButton prevSlideButton');
+            $nextSlideButton = $('<div/>').addClass('slideButton nextSlideButton');
+            $(this).parent().append($prevSlideButton).append($nextSlideButton);
 
             /**
              * Rendering active slide indicators.
@@ -62,6 +70,7 @@
              */
             $('.slideButton').on('click', function () {
                 var button = $(this),
+                    sliderId = button.parent().prop('id'),
                     activeSlide = options.activeSlide,
                     nextOne;
 
@@ -72,12 +81,14 @@
                 if (button.hasClass('nextSlideButton')) {
                     nextOne = (activeSlide < images-1) ? activeSlide+1 : 0;
                 }
-                slideTo(nextOne);
+                slideTo(nextOne, sliderId);
             });
 
             $('.slideIndicator').on('click', function () {
-                var activeSlide = $(this).prop('id');
-                slideTo(activeSlide);
+                var indicator = $(this),
+                    activeSlide = indicator.prop('id'),
+                    sliderId = indicator.parent().parent().prop('id');
+                slideTo(activeSlide, sliderId);
             });
 
             /**
