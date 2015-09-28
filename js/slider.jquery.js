@@ -3,78 +3,84 @@
  * Allows to create an image gallery.
  */
 
-(function ($) {
-    $.fn.slider = function (options) {
-        var config,
-            utils;
-            init;
+(function($) {
+   var Slider = function Slider($element, options) {
+        var $slideshowDiv = $('<div/>').addClass('slideshow');
+        options = options || {};
 
-        config = $.extend({}, {
+        this.$element = $element;
+        this.$element.wrap($slideshowDiv);
+        this.$elementParent = this.$element.parent();
+        this.config = $.extend({}, {
             runWith: 0,
-            activeSlide: 0
+            activeSlide: 0,
+            imagesLength: this.$element.find('li a img').length
         }, options);
 
-        utils = {
-            nextSlide: function (slide, slidee) {
-                slide = slide || config.runWith;
-                config.activeSlide = slide;
-                slidee.css('left', ((+slide * 800) * -1) + 'px');
+        this.createButtons();
+        this.createIndicators();
+   };
 
-                slidee.parent().children('.indicatorsDiv').children().removeClass('active');
-                slidee.parent().children('.indicatorsDiv').children().filter(function () {
-                    return $(this).data('slide') == slide;
-                }).addClass('active');
-            }
-        };
+   Slider.prototype = {
+        createButtons: function createButtons() {
+            var $prevSlideButton = $('<div/>').addClass('slide-button prev-slide-button'),
+                $nextSlideButton = $('<div/>').addClass('slide-button next-slide-button'),
+                _this = this;
 
-        init = function init($element) {
-            var $slideshowDiv,
-                $elementParent,
-                $images,
-                $prevSlideButton,
-                $nextSlideButton,
-                $indicatorsDiv,
+            this.$elementParent.append($prevSlideButton).append($nextSlideButton);
+
+            $prevSlideButton.click(function() {
+                var nextOne = (_this.config.activeSlide > 0) ? _this.config.activeSlide-1 : _this.config.imagesLength-1;
+                _this.nextSlide(nextOne, $(this).parent().children('ul'));
+            });
+
+            $nextSlideButton.click(function() {
+                var nextOne = (_this.config.activeSlide < _this.config.imagesLength-1) ? _this.config.activeSlide+1 : 0;
+                _this.nextSlide(nextOne, $(this).parent().children('ul'));
+            });
+        },
+
+        createIndicators: function createIndicators() {
+            var $indicatorsDiv = $('<div/>').addClass('indicators-div'),
                 $indicator,
+                _this = this,
                 i;
 
-            $slideshowDiv = $('<div/>').addClass('slideshow');
-            $element.wrap($slideshowDiv);
-            $elementParent = $element.parent();
-            $images = $element.find('li a img').length;
+                for (i = 0; i < this.config.imagesLength; i++) {
+                    $indicator = $('<div/>').addClass('slide-indicator').data('slide', i);
+                    $indicatorsDiv.append($indicator);
 
-            $prevSlideButton = $('<div/>').addClass('slideButton prevSlideButton');
-            $nextSlideButton = $('<div/>').addClass('slideButton nextSlideButton');
-            $elementParent.append($prevSlideButton).append($nextSlideButton);
+                    $indicator.click(function() {
+                        var slide = ($(this).data('slide'));
+                        _this.nextSlide(slide, $(this).parent().parent().children('ul'));
+                    });
+                }
 
-            $prevSlideButton.click(function () {
-                nextOne = (config.activeSlide > 0) ? config.activeSlide-1 : $images-1;
-                utils.nextSlide(nextOne, $(this).parent().children('ul'));
-            });
+                this.$elementParent.append($indicatorsDiv);
+                this.nextSlide(false, this.$element);
+        },
 
-            $nextSlideButton.click(function () {
-                nextOne = (config.activeSlide < $images-1) ? config.activeSlide+1 : 0;
-                utils.nextSlide(nextOne, $(this).parent().children('ul'));
-            });
+        nextSlide: function nextSlide(slideIdx, $slidee) {
+            var $indicatorDiv = $slidee.parent().children('.indicators-div').children();
 
-            $indicatorsDiv = $('<div/>').addClass('indicatorsDiv');
-            for (i = 0; i < $images; i++) {
-                $indicator = $('<div/>').addClass('slideIndicator').data('slide', i);
-                $indicatorsDiv.append($indicator);
+            slideIdx = slideIdx || this.config.runWith;
+            this.config.activeSlide = slideIdx;
 
-                $indicator.click(function () {
-                    var slide = ($(this).data('slide'));
-                    utils.nextSlide(slide, $(this).parent().parent().children('ul'));
-                });
-            }
-            $elementParent.append($indicatorsDiv);
+            $slidee.css('left', ((+slideIdx * 800) * -1) + 'px');
+            $indicatorDiv
+                .removeClass('active')
+                .filter(function() {
+                    return $(this).data('slide') === slideIdx;
+                })
+                .addClass('active');
+        }
+   };
 
-            utils.nextSlide(false, $element);
-        };
-
-        this.each(function () {
-            init($(this));
+   $.fn.slider = function(options) {
+        this.each(function() {
+            new Slider($(this), options);
         });
 
         return this;
-    };
+   };
 })(jQuery);
