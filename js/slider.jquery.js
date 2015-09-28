@@ -1,12 +1,10 @@
 /*!
  * Slider jQuery Plugin
- * Allows to create an image galerry.
+ * Allows to create an image gallery.
  */
 
 (function ($) {
-
     $.fn.slider = function (options) {
-
         var config,
             utils;
             init;
