@@ -7,9 +7,9 @@
 
     $.fn.slider = function (options) {
 
-        var config;
-        var utils;
-        var init;
+        var config,
+            utils;
+            init;
 
         config = $.extend({}, {
             runWith: 0,
@@ -36,7 +36,8 @@
                 $prevSlideButton,
                 $nextSlideButton,
                 $indicatorsDiv,
-                $indicator;
+                $indicator,
+                i;
 
             $slideshowDiv = $('<div/>').addClass('slideshow');
             $element.wrap($slideshowDiv);
@@ -58,7 +59,7 @@
             });
 
             $indicatorsDiv = $('<div/>').addClass('indicatorsDiv');
-            for (var i = 0; i < $images; i++) {
+            for (i = 0; i < $images; i++) {
                 $indicator = $('<div/>').addClass('slideIndicator').data('slide', i);
                 $indicatorsDiv.append($indicator);
 
