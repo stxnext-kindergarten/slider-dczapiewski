@@ -41,7 +41,7 @@
             $nextSlideButton.click(function() {
                 var nextOne = (self.activeSlide < self.imagesLength-1) ? self.activeSlide+1 : 0,
                     $slidee = $(this).parent().children('ul');
-                    
+
                 self.nextSlide(nextOne, $slidee);
             });
         },
@@ -65,7 +65,6 @@
 
                     i += 1;
                 });
-
 
                 this.$elementParent.append($indicatorsDiv);
                 this.nextSlide(false, this.$element);
