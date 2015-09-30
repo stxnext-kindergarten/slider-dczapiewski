@@ -1,6 +1,28 @@
 /*!
  * Slider jQuery Plugin
  * Allows to create an image gallery.
+ *
+ * Put your images as nested in ul > li > a.
+ * Example:
+
+ *      <ul id="gallery">
+ *          <li>
+ *              <a href="#">
+ *                  <img src="gallery/image1.png">
+ *              </a>
+ *          </li>
+ *          <li>
+ *              <a href="#">
+ *                  <img src="gallery/image2.png">
+ *              </a>
+ *          </li>
+ *      </ul>
+ *
+ * Having something like above, you can turn it into slides gallery by call of .slider() method on an element.
+ * Example:
+ *
+ *      $('#gallery').slider();
+ *
  */
 
 (function($) {
@@ -14,15 +36,19 @@
         this.$images = this.$element.find('li a img');
         this.activeSlide = 0;
         this.imagesLength = this.$images.length;
-        this.defaults = $.extend({}, {
-            runWith: 0
+        this.config = $.extend({}, {
+            active: 0
         }, options);
 
         this.createButtons();
         this.createIndicators();
+        this.nextSlide(this.config.active, this.$element);
    };
 
    Slider.prototype = {
+        /**
+         * Creates buttons allowing to switch to previous or next slide.
+         */
         createButtons: function createButtons() {
             var $prevSlideButton = $('<div/>').addClass('slide-button prev-slide-button'),
                 $nextSlideButton = $('<div/>').addClass('slide-button next-slide-button'),
@@ -46,35 +72,41 @@
             });
         },
 
+        /**
+         * Creates indicators that show which slide is being shown. Each of them allows to switch slide displayed by clicking it.
+         */
         createIndicators: function createIndicators() {
             var $indicatorsDiv = $('<div/>').addClass('indicators-div'),
                 $indicator,
-                self = this,
-                i = 0;
+                self = this;
 
-                this.$images.each(function() {
-                    $indicator = $('<div/>').addClass('slide-indicator').data('slide', i);
+                this.$images.each(function(idx) {
+                    $indicator = $('<div/>').addClass('slide-indicator').data('slide', idx);
                     $indicatorsDiv.append($indicator);
 
                     $indicator.click(function() {
-                        var slide = $(this).data('slide'),
-                            $slidee = $(this).parent().parent().children('ul');
+                        var $this = $(this),
+                            slide = $this.data('slide'),
+                            $slidee = $this.parent().parent().children('ul');
 
                         self.nextSlide(slide, $slidee);
                     });
-
-                    i += 1;
                 });
 
                 this.$elementParent.append($indicatorsDiv);
                 this.nextSlide(false, this.$element);
         },
 
+        /**
+         * Change the slide displayed by its index that is counted from 0 (pass 0 to display first slide).
+         * @param {number} slideIdx Index of the slide supposed to be shown.
+         * @param {Element} $slidee A jQuery element that images are wrapped into. Here it is the <ul> element that method slider() has been called on.
+         */
         nextSlide: function nextSlide(slideIdx, $slidee) {
-            var $indicatorDiv = $slidee.parent().children('.indicators-div').children();
+            var $indicatorDiv = $slidee.parent().children('.indicators-div').children(),
+                self = this;
 
-            slideIdx = slideIdx || this.defaults.runWith;
-            this.activeSlide = slideIdx;
+            this.activeSlide = slideIdx || this.config.active;
 
             $slidee.css('left', ((+slideIdx * 800) * -1) + 'px');
             $indicatorDiv
