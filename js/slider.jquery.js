@@ -4,7 +4,7 @@
  *
  * Put your images as nested in ul > li > a.
  * Example:
-
+ *
  *      <ul id="gallery">
  *          <li>
  *              <a href="#">
@@ -48,6 +48,7 @@
    Slider.prototype = {
         /**
          * Creates buttons allowing to switch to previous or next slide.
+         *
          */
         createButtons: function createButtons() {
             var $prevSlideButton = $('<div/>').addClass('slide-button prev-slide-button'),
@@ -58,14 +59,14 @@
             this.$elementParent.append([$prevSlideButton, $nextSlideButton]);
 
             $prevSlideButton.click(function() {
-                var nextOne = (self.activeSlide > 0) ? self.activeSlide-1 : self.imagesLength-1,
+                var nextOne = (self.activeSlide > 0) ? self.activeSlide - 1 : self.imagesLength - 1,
                     $slidee = $(this).parent().children('ul');
 
                 self.nextSlide(nextOne, $slidee);
             });
 
             $nextSlideButton.click(function() {
-                var nextOne = (self.activeSlide < self.imagesLength-1) ? self.activeSlide+1 : 0,
+                var nextOne = (self.activeSlide < self.imagesLength - 1) ? self.activeSlide + 1 : 0,
                     $slidee = $(this).parent().children('ul');
 
                 self.nextSlide(nextOne, $slidee);
@@ -73,7 +74,9 @@
         },
 
         /**
-         * Creates indicators that show which slide is being shown. Each of them allows to switch slide displayed by clicking it.
+         * Creates indicators that show which slide is being shown.
+         * Each of them allows to switch slide displayed by clicking it.
+         *
          */
         createIndicators: function createIndicators() {
             var $indicatorsDiv = $('<div/>').addClass('indicators-div'),
@@ -99,8 +102,10 @@
 
         /**
          * Change the slide displayed by its index that is counted from 0 (pass 0 to display first slide).
+         * 
          * @param {number} slideIdx Index of the slide supposed to be shown.
-         * @param {Element} $slidee A jQuery element that images are wrapped into. Here it is the <ul> element that method slider() has been called on.
+         * @param {Element} $slidee A jQuery element that images are wrapped into.
+         * Here it is the <ul> element that method slider() has been called on.
          */
         nextSlide: function nextSlide(slideIdx, $slidee) {
             var $indicatorDiv = $slidee.parent().children('.indicators-div').children(),
