@@ -18,7 +18,8 @@
  *          </li>
  *      </ul>
  *
- * Having something like above, you can turn it into slides gallery by call of .slider() method on an element.
+ * Having something like above, you can turn it into slides gallery by call of .slider() method
+ * on an element.
  * Example:
  *
  *      $('#gallery').slider();
@@ -65,25 +66,6 @@
                 self.nextSlide(slideIdx);
             });
 
-            /*
-            ŻEBY TEN KOD DZIAŁAŁ, TRZEBA NAJPIERW WYWOŁAĆ this.$wrapper.append([$prevSlideButton, $nextSlideButton])
-            DOTĄD NOWE ELEMENTY DODAWANE BYŁY NA KOŃCU, ZŁAMANA ZOSTAŁABY KONWENCJA
-
-            var navigationButtons = $('.slide-button', this.$wrapper);
-            navigationButtons.css('border-radius','0px');
-            navigationButtons.click(function(evt) {
-                evt.preventDefault();
-                var slideIdx;
-
-                if ($(this).hasClass('prev-slide-button')) {
-                    slideIdx = (self.activeSlide > 0) ? self.activeSlide - 1 : self.imagesLength - 1;
-                } else {
-                    slideIdx = (self.activeSlide < self.imagesLength - 1) ? self.activeSlide + 1 : 0;
-                }
-
-                self.nextSlide(slideIdx);
-            });*/
-
             this.$wrapper.append([$prevSlideButton, $nextSlideButton]);
         },
 
@@ -93,17 +75,18 @@
          */
         createDots: function() {
             var self = this,
-                $dots = $('<ul class="navigation-bar" />'),
-                $dot,
-                $dotLink;
+                $dots = $('<ul class="navigation-bar" />');
 
             this.$images.each(function(idx) {
+                var $dot,
+                    $dotLink;
+
                 $dot = $('<li class="slide-indicator" />');
                 $dotLink = $('<a href="#" />');
                 $dot.append($dotLink);
                 $dots.append($dot);
 
-                $dotLink.click(function(evt) {
+                $dotLink.on('click', function(evt) {
                     evt.preventDefault();
                     self.nextSlide(idx);
                 });
@@ -113,7 +96,9 @@
         },
 
         /**
+         * Draws the dots indicating which slide is currently displayed.
          *
+         * @param {number} slideIdx Index of the slide being shown.
          */
          setDots: function(slideIdx) {
             var $dots = $('.navigation-bar > li.slide-indicator a', this.$wrapper);
@@ -128,8 +113,6 @@
          * Change the slide displayed by its index that is counted from 0 (pass 0 to display first slide).
          * 
          * @param {number} slideIdx Index of the slide supposed to be shown.
-         * @param {Element} $slidee A jQuery element that images are wrapped into.
-         * Here it is the <ul> element that method slider() has been called on.
          */
         nextSlide: function(slideIdx) {
             var $slidee = this.$element,
