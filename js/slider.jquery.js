@@ -1,6 +1,6 @@
 /*!
  * Slider jQuery Plugin
- * Allows to create an image gallery.
+ * Allows to create slider with images.
  *
  * Put your images as nested in ul > li > a.
  * Example:
@@ -38,10 +38,11 @@
 
         this.createButtons();
         this.createDots();
-        this.nextSlide(this.activeSlide);
+        this.setDots(this.activeSlide);
     };
 
     Slider.prototype = {
+
         /**
          * Creates buttons allowing to switch to previous or next slide.
          */
@@ -50,21 +51,40 @@
                 $prevSlideButton = $('<a href="#" class="slide-button prev-slide-button" />'),
                 $nextSlideButton = $('<a href="#" class="slide-button next-slide-button" />');
 
-            this.$wrapper.append([$prevSlideButton, $nextSlideButton]);
-
             $prevSlideButton.click(function(evt) {
                 evt.preventDefault();
-                var nextOne = (self.activeSlide > 0) ? self.activeSlide - 1 : self.imagesLength - 1;
+                var slideIdx = (self.activeSlide > 0) ? self.activeSlide - 1 : self.imagesLength - 1;
 
-                self.nextSlide(nextOne);
+                self.nextSlide(slideIdx);
             });
 
             $nextSlideButton.click(function(evt) {
                 evt.preventDefault();
-                var nextOne = (self.activeSlide < self.imagesLength - 1) ? self.activeSlide + 1 : 0;
+                var slideIdx = (self.activeSlide < self.imagesLength - 1) ? self.activeSlide + 1 : 0;
 
-                self.nextSlide(nextOne);
+                self.nextSlide(slideIdx);
             });
+
+            /*
+            ŻEBY TEN KOD DZIAŁAŁ, TRZEBA NAJPIERW WYWOŁAĆ this.$wrapper.append([$prevSlideButton, $nextSlideButton])
+            DOTĄD NOWE ELEMENTY DODAWANE BYŁY NA KOŃCU, ZŁAMANA ZOSTAŁABY KONWENCJA
+
+            var navigationButtons = $('.slide-button', this.$wrapper);
+            navigationButtons.css('border-radius','0px');
+            navigationButtons.click(function(evt) {
+                evt.preventDefault();
+                var slideIdx;
+
+                if ($(this).hasClass('prev-slide-button')) {
+                    slideIdx = (self.activeSlide > 0) ? self.activeSlide - 1 : self.imagesLength - 1;
+                } else {
+                    slideIdx = (self.activeSlide < self.imagesLength - 1) ? self.activeSlide + 1 : 0;
+                }
+
+                self.nextSlide(slideIdx);
+            });*/
+
+            this.$wrapper.append([$prevSlideButton, $nextSlideButton]);
         },
 
         /**
@@ -73,11 +93,12 @@
          */
         createDots: function() {
             var self = this,
-                $dots = $('<ul class="indicators-bar" />'),
-                $dot;
+                $dots = $('<ul class="navigation-bar" />'),
+                $dot,
+                $dotLink;
 
             this.$images.each(function(idx) {
-                $dot = $('<li class="slide-indicator" />').data('slide', idx);
+                $dot = $('<li class="slide-indicator" />');
                 $dotLink = $('<a href="#" />');
                 $dot.append($dotLink);
                 $dots.append($dot);
@@ -92,6 +113,18 @@
         },
 
         /**
+         *
+         */
+         setDots: function(slideIdx) {
+            var $dots = $('.navigation-bar > li.slide-indicator a', this.$wrapper);
+
+            $dots
+                .removeClass('active')
+                .eq(slideIdx).
+                addClass('active');
+         },
+
+        /**
          * Change the slide displayed by its index that is counted from 0 (pass 0 to display first slide).
          * 
          * @param {number} slideIdx Index of the slide supposed to be shown.
@@ -100,18 +133,12 @@
          */
         nextSlide: function(slideIdx) {
             var $slidee = this.$element,
-                $dotsDiv = $slidee.parent().children('.indicators-bar').children(),
                 self = this;
 
             this.activeSlide = slideIdx;
 
             $slidee.css('left', ((+slideIdx * 800) * -1) + 'px');
-            $dotsDiv
-                .removeClass('active')
-                .filter(function() {
-                    return $(this).data('slide') === slideIdx;
-                })
-                .addClass('active');
+            this.setDots(slideIdx);
         }
     };
 

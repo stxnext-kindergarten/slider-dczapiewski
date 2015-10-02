@@ -52,14 +52,14 @@
     right: -20px;
 }
 
-.indicators-bar {
+.navigation-bar {
     position: absolute;
     bottom: 0px;
     width: 100%;
     text-align: center;
 }
 
-.indicators-bar > li {
+.navigation-bar > li {
     display: inline;
 }
 
@@ -79,7 +79,7 @@
     background-color: #555;
 }
 
-.slide-indicator.active > a {
+.slide-indicator > a.active {
     background-color: #fff;
     border: solid 3px #2af;
 }
