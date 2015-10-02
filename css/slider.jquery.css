@@ -7,7 +7,7 @@
     overflow: hidden;
 }
 
-.slideshow ul {
+.slideshow > ul:nth-child(1) {
     list-style-type: none;
     width: 1000%;
     clear: both;
@@ -19,7 +19,7 @@
     transition: .45s;
 }
 
-.slideshow ul li img {
+.slideshow > ul:nth-child(1) li img {
     width: 800px;
     height: 400px;
     float: left;
@@ -52,29 +52,34 @@
     right: -20px;
 }
 
-.indicators-div {
+.indicators-bar {
     position: absolute;
     bottom: 0px;
     width: 100%;
     text-align: center;
 }
 
-.slide-indicator {
+.indicators-bar > li {
+    display: inline;
+}
+
+.slide-indicator > a {
     width: 12px;
     height: 12px;
-    display: inline-block;
     background-color: #333;
     margin: 20px 5px;
     border-radius: 12px;
     border: solid 3px rgba(255, 255, 255, .75);
     transition: .45s;
+    cursor: pointer;
+    display: inline-block;
 }
 
-.slide-indicator:hover {
+.slide-indicator > a:hover {
     background-color: #555;
 }
 
-.slide-indicator.active {
+.slide-indicator.active > a {
     background-color: #fff;
     border: solid 3px #2af;
 }

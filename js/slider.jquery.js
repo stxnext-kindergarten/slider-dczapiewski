@@ -22,82 +22,73 @@
  * Example:
  *
  *      $('#gallery').slider();
- *
  */
 
 (function($) {
-   var Slider = function Slider($element, options) {
-        var $slideshowDiv = $('<div/>').addClass('slideshow');
-        options = options || {};
+    var Slider = function Slider($element, options) {
+        var wrapper = $('<div class="slideshow" />');
+        $element.wrap(wrapper);
 
+        this.config = $.extend({}, {active: 0}, options);
         this.$element = $element;
-        this.$element.wrap($slideshowDiv);
-        this.$elementParent = this.$element.parent();
-        this.$images = this.$element.find('li a img');
-        this.activeSlide = 0;
+        this.$wrapper = $element.parent();
+        this.$images = $('li > a > img', $element);
         this.imagesLength = this.$images.length;
-        this.config = $.extend({}, {
-            active: 0
-        }, options);
+        this.activeSlide = this.config.active;
 
         this.createButtons();
-        this.createIndicators();
-        this.nextSlide(this.config.active, this.$element);
-   };
+        this.createDots();
+        this.nextSlide(this.activeSlide);
+    };
 
-   Slider.prototype = {
+    Slider.prototype = {
         /**
          * Creates buttons allowing to switch to previous or next slide.
-         *
          */
-        createButtons: function createButtons() {
-            var $prevSlideButton = $('<div/>').addClass('slide-button prev-slide-button'),
-                $nextSlideButton = $('<div/>').addClass('slide-button next-slide-button'),
-                $buttonsParent = $(this).parent().children('ul'),
-                self = this;
+        createButtons: function() {
+            var self = this,
+                $prevSlideButton = $('<a href="#" class="slide-button prev-slide-button" />'),
+                $nextSlideButton = $('<a href="#" class="slide-button next-slide-button" />');
 
-            this.$elementParent.append([$prevSlideButton, $nextSlideButton]);
+            this.$wrapper.append([$prevSlideButton, $nextSlideButton]);
 
-            $prevSlideButton.click(function() {
-                var nextOne = (self.activeSlide > 0) ? self.activeSlide - 1 : self.imagesLength - 1,
-                    $slidee = $(this).parent().children('ul');
+            $prevSlideButton.click(function(evt) {
+                evt.preventDefault();
+                var nextOne = (self.activeSlide > 0) ? self.activeSlide - 1 : self.imagesLength - 1;
 
-                self.nextSlide(nextOne, $slidee);
+                self.nextSlide(nextOne);
             });
 
-            $nextSlideButton.click(function() {
-                var nextOne = (self.activeSlide < self.imagesLength - 1) ? self.activeSlide + 1 : 0,
-                    $slidee = $(this).parent().children('ul');
+            $nextSlideButton.click(function(evt) {
+                evt.preventDefault();
+                var nextOne = (self.activeSlide < self.imagesLength - 1) ? self.activeSlide + 1 : 0;
 
-                self.nextSlide(nextOne, $slidee);
+                self.nextSlide(nextOne);
             });
         },
 
         /**
          * Creates indicators that show which slide is being shown.
          * Each of them allows to switch slide displayed by clicking it.
-         *
          */
-        createIndicators: function createIndicators() {
-            var $indicatorsDiv = $('<div/>').addClass('indicators-div'),
-                $indicator,
-                self = this;
+        createDots: function() {
+            var self = this,
+                $dots = $('<ul class="indicators-bar" />'),
+                $dot;
 
-                this.$images.each(function(idx) {
-                    $indicator = $('<div/>').addClass('slide-indicator').data('slide', idx);
-                    $indicatorsDiv.append($indicator);
+            this.$images.each(function(idx) {
+                $dot = $('<li class="slide-indicator" />').data('slide', idx);
+                $dotLink = $('<a href="#" />');
+                $dot.append($dotLink);
+                $dots.append($dot);
 
-                    $indicator.click(function() {
-                        var $this = $(this),
-                            slide = $this.data('slide'),
-                            $slidee = $this.parent().parent().children('ul');
-
-                        self.nextSlide(slide, $slidee);
-                    });
+                $dotLink.click(function(evt) {
+                    evt.preventDefault();
+                    self.nextSlide(idx);
                 });
+            });
 
-                this.$elementParent.append($indicatorsDiv);
-                this.nextSlide(false, this.$element);
+            this.$wrapper.append($dots);
         },
 
         /**
@@ -107,27 +98,29 @@
          * @param {Element} $slidee A jQuery element that images are wrapped into.
          * Here it is the <ul> element that method slider() has been called on.
          */
-        nextSlide: function nextSlide(slideIdx, $slidee) {
-            var $indicatorDiv = $slidee.parent().children('.indicators-div').children(),
+        nextSlide: function(slideIdx) {
+            var $slidee = this.$element,
+                $dotsDiv = $slidee.parent().children('.indicators-bar').children(),
                 self = this;
 
-            this.activeSlide = slideIdx || this.config.active;
+            this.activeSlide = slideIdx;
 
             $slidee.css('left', ((+slideIdx * 800) * -1) + 'px');
-            $indicatorDiv
+            $dotsDiv
                 .removeClass('active')
                 .filter(function() {
                     return $(this).data('slide') === slideIdx;
                 })
                 .addClass('active');
         }
-   };
+    };
 
-   $.fn.slider = function(options) {
+    $.fn.slider = function(options) {
+        options = options || {};
+
         this.each(function() {
             new Slider($(this), options);
         });
-
         return this;
-   };
+    };
 })(jQuery);
