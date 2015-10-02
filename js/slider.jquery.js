@@ -52,21 +52,19 @@
                 $prevSlideButton = $('<a href="#" class="slide-button prev-slide-button" />'),
                 $nextSlideButton = $('<a href="#" class="slide-button next-slide-button" />');
 
-            $prevSlideButton.click(function(evt) {
-                evt.preventDefault();
-                var slideIdx = (self.activeSlide > 0) ? self.activeSlide - 1 : self.imagesLength - 1;
-
-                self.nextSlide(slideIdx);
-            });
-
-            $nextSlideButton.click(function(evt) {
-                evt.preventDefault();
-                var slideIdx = (self.activeSlide < self.imagesLength - 1) ? self.activeSlide + 1 : 0;
-
-                self.nextSlide(slideIdx);
-            });
-
             this.$wrapper.append([$prevSlideButton, $nextSlideButton]);
+            $('.slide-button', this.$wrapper).on('click', function(evt) {
+                evt.preventDefault();
+                var slideIdx;
+
+                if ($(this).hasClass('prev-slide-button')) {
+                    slideIdx = (self.activeSlide > 0) ? self.activeSlide - 1 : self.imagesLength - 1;
+                } else {
+                    slideIdx = (self.activeSlide < self.imagesLength - 1) ? self.activeSlide + 1 : 0;
+                }
+
+                self.nextSlide(slideIdx);
+            });
         },
 
         /**
