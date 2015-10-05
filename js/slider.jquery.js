@@ -113,8 +113,7 @@
          * @param {number} slideIdx Index of the slide supposed to be shown.
          */
         nextSlide: function(slideIdx) {
-            var $slidee = this.$element,
-                self = this;
+            var $slidee = this.$element;
 
             this.activeSlide = slideIdx;
 
