@@ -114,7 +114,6 @@
          */
         nextSlide: function(slideIdx) {
             this.activeSlide = slideIdx;
-
             this.$element.css('left', ((+slideIdx * 800) * -1) + 'px');
             this.setDots(slideIdx);
         }
