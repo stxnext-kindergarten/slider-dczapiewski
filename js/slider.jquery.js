@@ -113,11 +113,9 @@
          * @param {number} slideIdx Index of the slide supposed to be shown.
          */
         nextSlide: function(slideIdx) {
-            var $slidee = this.$element;
-
             this.activeSlide = slideIdx;
 
-            $slidee.css('left', ((+slideIdx * 800) * -1) + 'px');
+            this.$element.css('left', ((+slideIdx * 800) * -1) + 'px');
             this.setDots(slideIdx);
         }
     };
