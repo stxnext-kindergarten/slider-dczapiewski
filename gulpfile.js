@@ -12,7 +12,7 @@ gulp.task('default', function() {
 });
 
 /**
- * Copies files from /src directory to /dist directory
+ * Copies files from /src directory to /dist directory.
  */
 gulp.task('dev', function() {
     gulp.src('src/**')
