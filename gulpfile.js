@@ -1,8 +1,6 @@
 var gulp = require('gulp');
+var gutil = require('gulp-util');
 
-// define tasks here
 gulp.task('default', function() {
-    // run tasks here
-    // set up watch handlers here
-    
+    gutil.log('==', gutil.colors.green('Slider'), 'jQuery Plugin', '==');
 });
