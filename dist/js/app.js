@@ -1,0 +1,1 @@
+!function(e){e(document).ready(function(){e("#views-slides, #animals-slides").slider()})}(jQuery);
