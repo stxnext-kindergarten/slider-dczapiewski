@@ -43,12 +43,12 @@
 }
 
 .slideshow .prev-slide-button {
-    background-image: url('../images/arrow-left.png');
+    background-image: url('../../images/arrow-left.png');
     left: -20px;
 }
 
 .slideshow .next-slide-button {
-    background-image: url('../images/arrow-right.png');
+    background-image: url('../../images/arrow-right.png');
     right: -20px;
 }
 
