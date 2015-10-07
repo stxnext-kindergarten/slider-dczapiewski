@@ -27,11 +27,17 @@ Example:
 ## Installation
 
 1. Install all required dependencies via npm.
+    
+    
     `npm install`
 
 2. Generate final files with Gulp.
    To concat scripts and styles and move resources like images, run *gulp dev*
+   
+
     `gulp dev`
 
     To concat scripts and styles and move resources like images and minify scripts and styles, run *gulp prod*
+    
+
     `gulp prod`
