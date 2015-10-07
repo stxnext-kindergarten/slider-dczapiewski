@@ -8,10 +8,15 @@ exports.paths = {
         ],
         css: [
             'src/css/**/*.css'
+        ],
+        img: [
+            'src/img/**'
         ]
+
     },
     dist: {
         js: 'dist/js',
-        css: 'dist/css'
+        css: 'dist/css',
+        img: 'dist/img'
     }
 };

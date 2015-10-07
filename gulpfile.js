@@ -24,6 +24,9 @@ gulp.task('dev', function() {
     gulp.src(config.paths.src.css)
         .pipe(concat('style.css'))
         .pipe(gulp.dest(config.paths.dist.css));
+
+    gulp.src(config.paths.src.img)
+        .pipe(gulp.dest(config.paths.dist.img));
 });
 
 /**
@@ -40,4 +43,7 @@ gulp.task('prod', function() {
         .pipe(minifyCss())
         .pipe(concat('style.css'))
         .pipe(gulp.dest(config.paths.dist.css));
+
+    gulp.src(config.paths.src.img)
+        .pipe(gulp.dest(config.paths.dist.img));
 });
