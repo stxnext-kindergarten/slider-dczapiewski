@@ -6,7 +6,7 @@ Allows to create slider with images.
 Put your images as nested in ul > li > a.
 Example:
   
-        <ul id="gallery">
+         <ul id="gallery">
             <li>
                 <a href="#">
                     <img src="gallery/image1.png">
