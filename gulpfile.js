@@ -11,20 +11,19 @@ var gulp = require('gulp'),
  */
 gulp.task('default', function() {
     gutil.log('==', gutil.colors.green('Slider'), 'jQuery Plugin', '==');
-    gutil.log(config.paths.js, config.paths.css);
 });
 
 /**
  * Merges JavaScript and CSS files from /src directory to /dist directory.
  */
 gulp.task('dev', function() {
-    gulp.src(config.path.js)
+    gulp.src(config.paths.js.src)
         .pipe(concat('app.js'))
-        .pipe(gulp.dest('dist/js'));
+        .pipe(gulp.dest(config.paths.js.dist));
 
-    gulp.src(config.path.css)
+    gulp.src(config.paths.css.src)
         .pipe(concat('style.css'))
-        .pipe(gulp.dest('dist/css'));
+        .pipe(gulp.dest(config.paths.css.dist));
 });
 
 /**
@@ -32,13 +31,13 @@ gulp.task('dev', function() {
  * to /dist directory.
  */
 gulp.task('prod', function() {
-    gulp.src(config.path.js)
+    gulp.src(config.paths.js.src)
         .pipe(uglify())
         .pipe(concat('app.js'))
-        .pipe(gulp.dest('dist/js'));
+        .pipe(gulp.dest(config.paths.js.dist));
 
-    gulp.src(config.path.css)
+    gulp.src(config.paths.css.src)
         .pipe(minifyCss())
         .pipe(concat('style.css'))
-        .pipe(gulp.dest('dist/css'));
+        .pipe(gulp.dest(config.paths.css.dist));
 });
