@@ -1,10 +1,17 @@
 exports.paths = {
-    js: {
-        src: ['src/js/jquery.min.js', 'src/js/slider.jquery.js', 'src/js/app.js'],
-        dist: 'dist/js'
+    src: {
+        js: [
+            'src/js/jquery.min.js',
+            'src/js/slider.jquery.js',
+            'src/js/app.js',
+            'src/js/**/*.js'
+        ],
+        css: [
+            'src/css/**/*.css'
+        ]
     },
-    css: {
-        src: 'src/css/*.css',
-        dist: 'dist/css'
+    dist: {
+        js: 'dist/js',
+        css: 'dist/css'
     }
 };

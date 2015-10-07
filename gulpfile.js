@@ -17,13 +17,13 @@ gulp.task('default', function() {
  * Merges JavaScript and CSS files from /src directory to /dist directory.
  */
 gulp.task('dev', function() {
-    gulp.src(config.paths.js.src)
+    gulp.src(config.paths.src.js)
         .pipe(concat('app.js'))
-        .pipe(gulp.dest(config.paths.js.dist));
+        .pipe(gulp.dest(config.paths.dist.js));
 
-    gulp.src(config.paths.css.src)
+    gulp.src(config.paths.src.css)
         .pipe(concat('style.css'))
-        .pipe(gulp.dest(config.paths.css.dist));
+        .pipe(gulp.dest(config.paths.dist.css));
 });
 
 /**
@@ -31,13 +31,13 @@ gulp.task('dev', function() {
  * to /dist directory.
  */
 gulp.task('prod', function() {
-    gulp.src(config.paths.js.src)
+    gulp.src(config.paths.src.js)
         .pipe(uglify())
         .pipe(concat('app.js'))
-        .pipe(gulp.dest(config.paths.js.dist));
+        .pipe(gulp.dest(config.paths.dist.js));
 
-    gulp.src(config.paths.css.src)
+    gulp.src(config.paths.src.css)
         .pipe(minifyCss())
         .pipe(concat('style.css'))
-        .pipe(gulp.dest(config.paths.css.dist));
+        .pipe(gulp.dest(config.paths.dist.css));
 });
