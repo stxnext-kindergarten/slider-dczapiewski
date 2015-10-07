@@ -1,1 +1,3 @@
 # Simple Slider Module
+
+desc...
