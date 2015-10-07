@@ -2,7 +2,8 @@ var gulp = require('gulp'),
     gutil = require('gulp-util'),
     uglify = require('gulp-uglify'),
     minifyCss = require('gulp-minify-css'),
-    concat = require('gulp-concat');
+    concat = require('gulp-concat'),
+    config = require('./config');
 
 /**
  * Default action when gulp is run with no task.
@@ -10,19 +11,20 @@ var gulp = require('gulp'),
  */
 gulp.task('default', function() {
     gutil.log('==', gutil.colors.green('Slider'), 'jQuery Plugin', '==');
+    gutil.log(config.paths.js, config.paths.css);
 });
 
 /**
  * Merges JavaScript and CSS files from /src directory to /dist directory.
  */
 gulp.task('dev', function() {
-    gulp.src(['src/js/jquery.min.js', 'src/js/slider.jquery.js', 'src/js/app.js'])
-    .pipe(concat('app.js'))
-    .pipe(gulp.dest('dist/js'));
+    gulp.src(config.path.js)
+        .pipe(concat('app.js'))
+        .pipe(gulp.dest('dist/js'));
 
-    gulp.src('src/css/*.css')
-    .pipe(concat('style.css'))
-    .pipe(gulp.dest('dist/css'));
+    gulp.src(config.path.css)
+        .pipe(concat('style.css'))
+        .pipe(gulp.dest('dist/css'));
 });
 
 /**
@@ -30,13 +32,13 @@ gulp.task('dev', function() {
  * to /dist directory.
  */
 gulp.task('prod', function() {
-    gulp.src(['src/js/jquery.min.js', 'src/js/slider.jquery.js', 'src/js/app.js'])
-    .pipe(uglify())
-    .pipe(concat('app.js'))
-    .pipe(gulp.dest('dist/js'));
+    gulp.src(config.path.js)
+        .pipe(uglify())
+        .pipe(concat('app.js'))
+        .pipe(gulp.dest('dist/js'));
 
-    gulp.src('src/css/*.css')
-    .pipe(minifyCss())
-    .pipe(concat('style.css'))
-    .pipe(gulp.dest('dist/css'));
+    gulp.src(config.path.css)
+        .pipe(minifyCss())
+        .pipe(concat('style.css'))
+        .pipe(gulp.dest('dist/css'));
 });
