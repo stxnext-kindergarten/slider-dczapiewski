@@ -1,5 +1,6 @@
 exports.paths = {
     src: {
+        root: 'src/',
         js: [
             'src/js/jquery.min.js',
             'src/js/slider.jquery.js',
@@ -15,6 +16,7 @@ exports.paths = {
 
     },
     dist: {
+        root: 'dist/',
         js: 'dist/js',
         css: 'dist/css',
         img: 'dist/img'
