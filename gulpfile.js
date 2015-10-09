@@ -39,8 +39,8 @@ gulp.task('styles:minify', function() {
 });
 
 gulp.task('copy:images', function() {
-    gulp.src('src/img/**')
-        .pipe(gulp.dest('dist/img'));
+    gulp.src(config.paths.src.img)
+        .pipe(gulp.dest(config.paths.dist.img));
 });
 
 gulp.task('dev', ['clean', 'script:dev', 'styles:app', 'copy:images']);
