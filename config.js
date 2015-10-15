@@ -1,7 +1,7 @@
 exports.paths = {
     src: {
         js: [
-            'src/js/jquery.min.js',
+            'src/js/jquery.js',
             'src/js/slider.jquery.js',
             'src/js/app.js',
             'src/js/**/*.js'
@@ -18,5 +18,9 @@ exports.paths = {
         js: 'dist/js',
         css: 'dist/css',
         img: 'dist/img'
-    }
+    },
+    components: [
+        'jquery',
+        'bootstrap'
+    ]
 };
