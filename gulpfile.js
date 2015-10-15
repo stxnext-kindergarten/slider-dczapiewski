@@ -5,8 +5,8 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     clean = require('gulp-clean'),
     config = require('./config'),
-    bower = require('bower'),
-    runSequence = require('run-sequence');
+    runSequence = require('run-sequence'),
+    shell = require('gulp-shell');
 
 /*
  * Clean distribution files.
@@ -27,12 +27,7 @@ gulp.task('clean', function() {
 /*
  * Install bower dependecies.
  */
-gulp.task('component:install', function(cb) {
-    bower.commands.install([], {save: true}, {})
-        .on('end', function(installed) {
-            cb();
-        });
-});
+gulp.task('component:install', shell.task('bower install'));
 
 /*
  * Move needed bower components.
