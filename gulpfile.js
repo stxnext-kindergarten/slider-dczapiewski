@@ -111,6 +111,4 @@ gulp.task('prod', function(cb) {
     );
 });
 
-gulp.task('default', function(cb) {
-    runSequence('dev', cb);
-});
+gulp.task('default', ['dev']);
