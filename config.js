@@ -4,45 +4,26 @@ exports.paths = {
             'src/js/jquery.min.js',
             'src/js/slider.jquery.js',
             'src/js/app.js',
-            'src/js/**/*.js'
+            'src/js/**/*.js',
+            'src/components/jquery/dist/jquery.js',
+            'src/components/bootstrap/dist/js/bootstrap.js'
         ],
         css: [
-            'src/css/**/*.css'
+            'src/css/**/*.css',
+            'src/components/bootstrap/dist/css/bootstrap.css'
         ],
         img: [
             'src/img/**/*'
         ],
-        component: {
-            js: {
-                jquery: 'src/components/jquery/dist/jquery.js',
-                bootstrap: 'src/components/bootstrap/dist/js/bootstrap.js'
-            },
-            css: {
-                bootstrap: 'src/components/bootstrap/dist/css/bootstrap.css'
-            },
-            fonts: {
-                bootstrap: 'src/components/bootstrap/fonts/*'
-            },
-            root: {
-                fonts: 'src/fonts',
-                components: 'src/components'
-            },
-            used: [
-                'src/js/jquery.js',
-                'src/js/bootstrap.js',
-                'src/css/bootstrap.css'
-            ]
-        },
-        roots: {
-            js: 'src/js',
-            css: 'src/css',
-            fonts: 'src/fonts'
-        }
+        fonts: [
+            'src/components/bootstrap/fonts/**'
+        ]
     },
     dist: {
-        root: 'dist/',
+        root: 'dist',
         js: 'dist/js',
         css: 'dist/css',
-        img: 'dist/img'
+        img: 'dist/img',
+        fonts: 'dist/fonts'
     }
 };
