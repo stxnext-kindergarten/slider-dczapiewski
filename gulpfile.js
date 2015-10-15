@@ -28,7 +28,7 @@ gulp.task('clean', function() {
  * Install bower dependecies.
  */
 gulp.task('component:install', function(cb) {
-    bower.commands.install(config.paths.components, {save: true}, {})
+    bower.commands.install([], {save: true}, {})
         .on('end', function(installed) {
             cb();
         });

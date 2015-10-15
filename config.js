@@ -44,9 +44,5 @@ exports.paths = {
         js: 'dist/js',
         css: 'dist/css',
         img: 'dist/img'
-    },
-    components: [
-        'jquery',
-        'bootstrap'
-    ]
+    }
 };
