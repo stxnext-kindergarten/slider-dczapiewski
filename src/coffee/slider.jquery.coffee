@@ -46,20 +46,21 @@ Example:
     Creates buttons allowing to switch to previous or next slide.
     ###
     Slider::createButtons = ->
+        self = @
         $prevSlideButton = $ '<a href="#" class="slide-button prev-slide-button" />'
         $nextSlideButton = $ '<a href="#" class="slide-button next-slide-button" />'
 
         @$wrapper.append [$prevSlideButton, $nextSlideButton]
-        $('.slide-button', @$wrapper).on 'click', (evt) =>
+        $('.slide-button', @$wrapper).on 'click', (evt) ->
             evt.preventDefault()
             slideIdx
 
             if $(@).hasClass 'prev-slide-button'
-                slideIdx = if @activeSlide > 0 then @activeSlide - 1 else @imagesLength - 1
+                slideIdx = if self.activeSlide > 0 then self.activeSlide - 1 else self.imagesLength - 1
             else
-                slideIdx = if @activeSlide < @imagesLength - 1 then @activeSlide + 1 else 0
+                slideIdx = if self.activeSlide < self.imagesLength - 1 then self.activeSlide + 1 else 0
 
-            @nextSlide slideIdx
+            self.nextSlide slideIdx
 
     ###
     Creates indicators that show which slide is being shown.
