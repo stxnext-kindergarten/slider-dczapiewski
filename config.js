@@ -3,8 +3,8 @@ exports.paths = {
         js: [
             'src/components/jquery/dist/jquery.js',
             'src/components/bootstrap/dist/js/bootstrap.js',
-            'src/js/slider.jquery.js',
-            'src/js/app.js',
+            'src/coffee/app.coffee',
+            'src/coffee/slider.jquery.coffee',
             'src/js/**/*.js'
         ],
         css: [

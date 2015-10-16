@@ -1,4 +1,4 @@
-($) ->
+(($) ->
 	$ document
 	.ready ->
 	    $ '#views-slides, #animals-slides'

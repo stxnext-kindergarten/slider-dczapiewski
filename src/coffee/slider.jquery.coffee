@@ -94,7 +94,7 @@
         $dots
         .removeClass 'active'
         .eq slideIdx
-        addClass 'active'
+        .addClass 'active'
 
     ###
     * Change the slide displayed by its index that is counted from 0 (pass 0 to display first slide).
