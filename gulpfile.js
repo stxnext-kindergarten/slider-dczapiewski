@@ -6,7 +6,9 @@ var gulp = require('gulp'),
     clean = require('gulp-clean'),
     config = require('./config'),
     runSequence = require('run-sequence'),
-    shell = require('gulp-shell');
+    shell = require('gulp-shell'),
+    gulpif = require('gulp-if'),
+    coffee = require('gulp-coffee');
 
 /**
  * Clean distribution files.
@@ -26,12 +28,14 @@ gulp.task('component:install', shell.task('bower install'));
  */
 gulp.task('script:dev', function() {
     gulp.src(config.paths.src.js)
+        .pipe(gulpif(/\.coffee$/, coffee()))
         .pipe(concat('app.js'))
         .pipe(gulp.dest(config.paths.dist.js));
 });
 
 gulp.task('script:prod', function() {
     gulp.src(config.paths.src.js)
+        .pipe(gulpif(/\.coffee$/, coffee()))
         .pipe(uglify())
         .pipe(concat('app.js'))
         .pipe(gulp.dest(config.paths.dist.js));
