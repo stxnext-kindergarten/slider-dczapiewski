@@ -3,9 +3,9 @@ exports.paths = {
         js: [
             'src/components/jquery/dist/jquery.js',
             'src/components/bootstrap/dist/js/bootstrap.js',
-            'src/coffee/app.coffee',
-            'src/coffee/slider.jquery.coffee',
-            'src/js/**/*.js'
+            'src/js/app.coffee',
+            'src/js/slider.jquery.coffee',
+            'src/js/**/*.coffee'
         ],
         css: [
             'src/components/bootstrap/dist/css/bootstrap.css',
