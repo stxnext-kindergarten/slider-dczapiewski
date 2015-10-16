@@ -28,14 +28,14 @@ gulp.task('component:install', shell.task('bower install'));
  */
 gulp.task('script:dev', function() {
     gulp.src(config.paths.src.js)
-        .pipe(gulpif(/[.]coffee$/, coffee()))
+        .pipe(gulpif(/\.coffee$/, coffee()))
         .pipe(concat('app.js'))
         .pipe(gulp.dest(config.paths.dist.js));
 });
 
 gulp.task('script:prod', function() {
     gulp.src(config.paths.src.js)
-        .pipe(gulpif(/[.]coffee$/, coffee()))
+        .pipe(gulpif(/\.coffee$/, coffee()))
         .pipe(uglify())
         .pipe(concat('app.js'))
         .pipe(gulp.dest(config.paths.dist.js));

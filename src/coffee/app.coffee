@@ -1,6 +1,5 @@
 (($) ->
-	$ document
-	.ready ->
-	    $ '#views-slides, #animals-slides'
-	    .slider()
+    $ document
+    .ready ->
+        $('#views-slides, #animals-slides').slider()
 ) jQuery
