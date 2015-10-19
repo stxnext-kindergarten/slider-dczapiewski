@@ -26,20 +26,28 @@ gulp.task('component:install', shell.task('bower install'));
 /**
  * Generate scripts.
  */
-gulp.task('script:dev', function() {
+gulp.task('scripts:requirejs', function() {
+    gulp.src(config.paths.src.requirejs)
+        .pipe(gulp.dest(config.paths.dist.js));
+});
+
+gulp.task('scripts:dev', function() {
     gulp.src(config.paths.src.js)
         .pipe(gulpif(/\.coffee$/, coffee()))
         .pipe(concat('app.js'))
         .pipe(gulp.dest(config.paths.dist.js));
 });
 
-gulp.task('script:prod', function() {
+gulp.task('scripts:prod', function() {
     gulp.src(config.paths.src.js)
         .pipe(gulpif(/\.coffee$/, coffee()))
         .pipe(uglify())
         .pipe(concat('app.js'))
         .pipe(gulp.dest(config.paths.dist.js));
 });
+
+gulp.task('scripts-dev', ['scripts:requirejs', 'scripts:dev']);
+gulp.task('scripts-prod', ['scripts:requirejs', 'scripts:prod']);
 
 /**
  * CSS styles.
@@ -76,7 +84,7 @@ gulp.task('copy:fonts', function() {
 gulp.task('dev', function(cb) {
     runSequence(
         ['clean', 'component:install'],
-        ['script:dev', 'styles:app', 'copy:images', 'copy:fonts'],
+        ['scripts-dev', 'styles:app', 'copy:images', 'copy:fonts'],
         cb
     );
 });
@@ -84,7 +92,7 @@ gulp.task('dev', function(cb) {
 gulp.task('prod', function(cb) {
     runSequence(
         ['clean', 'component:install'],
-        ['script:prod', 'styles:app', 'styles:minify', 'copy:images', 'copy:fonts'],
+        ['scripts-prod', 'styles:app', 'styles:minify', 'copy:images', 'copy:fonts'],
         cb
     );
 });

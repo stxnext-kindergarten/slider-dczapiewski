@@ -20,5 +20,8 @@
   "dependencies": {
     "jquery": "~2.1.4",
     "bootstrap": "~3.3.5"
+  },
+  "devDependencies": {
+    "requirejs": "~2.1.20"
   }
 }
