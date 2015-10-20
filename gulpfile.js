@@ -8,7 +8,8 @@ var gulp = require('gulp'),
     runSequence = require('run-sequence'),
     shell = require('gulp-shell'),
     gulpif = require('gulp-if'),
-    coffee = require('gulp-coffee');
+    coffee = require('gulp-coffee'),
+    rjs = require('gulp-requirejs-optimize');
 
 /**
  * Clean distribution files.
