@@ -1,6 +1,9 @@
 exports.paths = {
     src: {
-        requirejs: 'src/components/requirejs/require.js',
+        components: {
+            root: 'src/components',
+            requirejs: 'src/components/requirejs/require.js'
+        },
         js: [
             'src/components/jquery/dist/jquery.js',
             'src/components/bootstrap/dist/js/bootstrap.js',
@@ -17,6 +20,9 @@ exports.paths = {
         ],
         fonts: [
             'src/components/bootstrap/fonts/**'
+        ],
+        html: [
+            'src/haml/**/*.haml'
         ]
     },
     dist: {
@@ -24,6 +30,7 @@ exports.paths = {
         js: 'dist/js',
         css: 'dist/css',
         img: 'dist/img',
-        fonts: 'dist/fonts'
+        fonts: 'dist/fonts',
+        index: 'index.html'
     }
 };

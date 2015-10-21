@@ -9,13 +9,29 @@ var gulp = require('gulp'),
     shell = require('gulp-shell'),
     gulpif = require('gulp-if'),
     coffee = require('gulp-coffee'),
-    rjs = require('gulp-requirejs-optimize');
+    rjs = require('gulp-requirejs-optimize'),
+    haml = require('gulp-haml');
+
+/**
+ * Build HTML basing on Haml.
+ */
+gulp.task('html:build', function() {
+    gulp.src(config.paths.src.html)
+        .pipe(haml())
+        .pipe(gulp.dest('.'));
+});
 
 /**
  * Clean distribution files.
  */
 gulp.task('clean', function() {
-    gulp.src(config.paths.dist.root, {read: false})
+    var cleanable = [
+        config.paths.dist.root,
+        config.paths.src.components.root,
+        config.paths.dist.index
+    ];
+
+    gulp.src(cleanable, {read: false})
         .pipe(clean({force: true}));
 });
 
@@ -28,7 +44,7 @@ gulp.task('component:install', shell.task('bower install'));
  * Generate scripts.
  */
 gulp.task('scripts:requirejs', function() {
-    gulp.src(config.paths.src.requirejs)
+    gulp.src(config.paths.src.components.requirejs)
         .pipe(gulp.dest(config.paths.dist.js));
 });
 
@@ -85,7 +101,7 @@ gulp.task('copy:fonts', function() {
 gulp.task('dev', function(cb) {
     runSequence(
         ['clean', 'component:install'],
-        ['scripts-dev', 'styles:app', 'copy:images', 'copy:fonts'],
+        ['html:build', 'scripts-dev', 'styles:app', 'copy:images', 'copy:fonts'],
         cb
     );
 });
@@ -93,7 +109,7 @@ gulp.task('dev', function(cb) {
 gulp.task('prod', function(cb) {
     runSequence(
         ['clean', 'component:install'],
-        ['scripts-prod', 'styles:app', 'styles:minify', 'copy:images', 'copy:fonts'],
+        ['html:build', 'scripts-prod', 'styles:app', 'styles:minify', 'copy:images', 'copy:fonts'],
         cb
     );
 });
