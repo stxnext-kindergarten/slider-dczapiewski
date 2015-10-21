@@ -13,7 +13,7 @@ exports.paths = {
         ],
         css: [
             'src/components/bootstrap/dist/css/bootstrap.css',
-            'src/css/**/*.css'
+            'src/css/*.scss'
         ],
         img: [
             'src/img/**/*'

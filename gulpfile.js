@@ -10,7 +10,8 @@ var gulp = require('gulp'),
     gulpif = require('gulp-if'),
     coffee = require('gulp-coffee'),
     rjs = require('gulp-requirejs-optimize'),
-    haml = require('gulp-haml');
+    haml = require('gulp-haml'),
+    sass = require('gulp-sass');
 
 /**
  * Build HTML basing on Haml.
@@ -71,12 +72,14 @@ gulp.task('scripts-prod', ['scripts:requirejs', 'scripts:prod']);
  */
 gulp.task('styles:app', function() {
     gulp.src(config.paths.src.css)
+        .pipe(gulpif(/\.scss$/, sass().on('error', sass.logError)))
         .pipe(concat('style.css'))
         .pipe(gulp.dest(config.paths.dist.css));
 });
 
 gulp.task('styles:minify', function() {
     gulp.src(config.paths.src.css)
+        .pipe(gulpif(/\.scss$/, sass().on('error', sass.logError)))
         .pipe(minifyCss())
         .pipe(concat('style.css'))
         .pipe(gulp.dest(config.paths.dist.css));
