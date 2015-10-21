@@ -1,0 +1,31 @@
+@import 'mixins/border-radius';
+
+.slideshow {
+    border: solid 1px #aaa;
+    margin: 100px auto;
+    position: relative;
+    width: 800px;
+    height: 400px;
+    overflow: hidden;
+
+    & > ul:first-child {
+        list-style-type: none;
+        width: 1000%;
+        clear: both;
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        margin: 0px;
+        padding: 0px;
+        transition: .45s;
+
+        li img {
+            width: 800px;
+            height: 400px;
+            float: left;
+        }
+    }
+
+    @import 'slider-components/buttons';
+    @import 'slider-components/dots';
+}

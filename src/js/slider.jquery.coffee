@@ -25,8 +25,8 @@ Example:
     $('#gallery').slider();
 ###
 
+define 'slider', ['jquery'], (jquery) ->
 
-(($) ->
     Slider = ($element, options) ->
         wrapper = $ '<div class="slideshow" />'
         $element.wrap wrapper
@@ -110,4 +110,3 @@ Example:
             new Slider $(@), options
 
         return @
-) jQuery
