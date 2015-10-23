@@ -10,7 +10,8 @@ var gulp = require('gulp'),
     gulpif = require('gulp-if'),
     coffee = require('gulp-coffee'),
     rjs = require('gulp-requirejs-optimize'),
-    notify = require('gulp-notify');
+    notify = require('gulp-notify'),
+    expect = require('gulp-expect-file');
 
 /**
  * Clean distribution files.
@@ -84,6 +85,7 @@ gulp.task('copy:fonts', function() {
  */
 gulp.task('requireem', function() {
     gulp.src('dist/js/main.js')
+        .pipe(expect('dist/js/main.js'))
         .pipe(rjs({
             mainConfigFile: 'dist/js/main.js',
             optimize: 'uglify',
@@ -101,7 +103,7 @@ gulp.task('dev', function(cb) {
     runSequence(
         ['clean', 'component:install'],
         ['scripts-dev', 'styles:app', 'copy:images', 'copy:fonts'],
-        'requireem',
+        //'requireem',
         cb
     );
 });
