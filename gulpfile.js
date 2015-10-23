@@ -9,7 +9,8 @@ var gulp = require('gulp'),
     shell = require('gulp-shell'),
     gulpif = require('gulp-if'),
     coffee = require('gulp-coffee'),
-    rjs = require('gulp-requirejs-optimize');
+    rjs = require('gulp-requirejs-optimize'),
+    notify = require('gulp-notify');
 
 /**
  * Clean distribution files.
@@ -35,16 +36,13 @@ gulp.task('scripts:requirejs', function() {
 gulp.task('scripts:dev', function() {
     gulp.src(config.paths.src.js)
         .pipe(gulpif(/\.coffee$/, coffee()))
-        .pipe(concat('app.js'))
-        .pipe(gulp.dest(config.paths.dist.js));
+        .pipe(gulp.dest('dist/js'));
 });
 
 gulp.task('scripts:prod', function() {
     gulp.src(config.paths.src.js)
         .pipe(gulpif(/\.coffee$/, coffee()))
-        .pipe(uglify())
-        .pipe(concat('app.js'))
-        .pipe(gulp.dest(config.paths.dist.js));
+        .pipe(gulp.dest('dist/js'));
 });
 
 gulp.task('scripts-dev', ['scripts:requirejs', 'scripts:dev']);
@@ -80,12 +78,30 @@ gulp.task('copy:fonts', function() {
 });
 
 /**
+ * /!\
+ *
+ * Supposed to minify and concat scripts, yet no like of it happen.
+ */
+gulp.task('requireem', function() {
+    gulp.src('dist/js/main.js')
+        .pipe(rjs({
+            mainConfigFile: 'dist/js/main.js',
+            optimize: 'uglify',
+            out: 'app.js'
+        })).on('error', notify.onError(function(error) {
+            return error.message;
+        }))
+        .pipe(gulp.dest('dist/js'));
+})
+
+/**
  * Prepare needed resources.
  */
 gulp.task('dev', function(cb) {
     runSequence(
         ['clean', 'component:install'],
         ['scripts-dev', 'styles:app', 'copy:images', 'copy:fonts'],
+        'requireem',
         cb
     );
 });
