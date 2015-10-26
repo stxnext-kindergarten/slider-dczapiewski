@@ -41,13 +41,29 @@ gulp.task('scripts:dev', function() {
 });
 
 gulp.task('scripts:prod', function() {
-    gulp.src(config.paths.src.js)
+    return gulp.src(config.paths.src.js)
         .pipe(gulpif(/\.coffee$/, coffee()))
         .pipe(gulp.dest('dist/js'));
 });
 
 gulp.task('scripts-dev', ['scripts:requirejs', 'scripts:dev']);
 gulp.task('scripts-prod', ['scripts:requirejs', 'scripts:prod']);
+
+/**
+ *  Minify and concat scripts, yet no like of it happen.
+ */
+gulp.task('scripts:optimize', function() {
+    gulp.src('dist/js/main.js')
+        .pipe(expect('dist/js/main.js'))
+        .pipe(rjs({
+            mainConfigFile: 'dist/js/main.js',
+            optimize: 'uglify',
+            out: 'app.js'
+        })).on('error', notify.onError(function(error) {
+            return error.message;
+        }))
+        .pipe(gulp.dest('dist/js'));
+});
 
 /**
  * CSS styles.
@@ -79,31 +95,13 @@ gulp.task('copy:fonts', function() {
 });
 
 /**
- * /!\
- *
- * Supposed to minify and concat scripts, yet no like of it happen.
- */
-gulp.task('requireem', function() {
-    gulp.src('dist/js/main.js')
-        .pipe(expect('dist/js/main.js'))
-        .pipe(rjs({
-            mainConfigFile: 'dist/js/main.js',
-            optimize: 'uglify',
-            out: 'app.js'
-        })).on('error', notify.onError(function(error) {
-            return error.message;
-        }))
-        .pipe(gulp.dest('dist/js'));
-});
-
-/**
  * Prepare needed resources.
  */
 gulp.task('dev', function(cb) {
     runSequence(
         ['clean', 'component:install'],
         ['scripts-dev', 'styles:app', 'copy:images', 'copy:fonts'],
-        'requireem',
+        'scripts:optimize',
         cb
     );
 });
@@ -112,6 +110,7 @@ gulp.task('prod', function(cb) {
     runSequence(
         ['clean', 'component:install'],
         ['scripts-prod', 'styles:app', 'styles:minify', 'copy:images', 'copy:fonts'],
+        'scripts:optimize',
         cb
     );
 });
