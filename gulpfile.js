@@ -10,14 +10,13 @@ var gulp = require('gulp'),
     coffee = require('gulp-coffee'),
     rjs = require('gulp-requirejs-optimize'),
     notify = require('gulp-notify'),
-    expect = require('gulp-expect-file'),
     config = require('./config');
 
 /**
  * Clean distribution files.
  */
 gulp.task('clean', function() {
-    gulp.src(config.paths.dist.root, {read: false})
+    return gulp.src(config.paths.dist.root, {read: false})
         .pipe(clean({force: true}));
 });
 
@@ -30,7 +29,7 @@ gulp.task('component:install', shell.task('bower install'));
  * Generate scripts.
  */
 gulp.task('scripts:requirejs', function() {
-    gulp.src(config.paths.src.requirejs)
+    return gulp.src(config.paths.src.requirejs)
         .pipe(gulp.dest(config.paths.dist.js));
 });
 
@@ -53,8 +52,7 @@ gulp.task('scripts-prod', ['scripts:requirejs', 'scripts:prod']);
  *  Minify and concat scripts based on AMD.
  */
 gulp.task('scripts:optimize', function() {
-    gulp.src(config.paths.dist.amdConfig)
-        .pipe(expect(config.paths.dist.amdConfig))
+    return gulp.src(config.paths.dist.amdConfig)
         .pipe(rjs({
             mainConfigFile: config.paths.dist.amdConfig,
             optimize: 'uglify',
@@ -62,20 +60,20 @@ gulp.task('scripts:optimize', function() {
         })).on('error', notify.onError(function(error) {
             return error.message;
         }))
-        .pipe(gulp.dest('dist/js'));
+        .pipe(gulp.dest(config.paths.dist.js));
 });
 
 /**
  * CSS styles.
  */
 gulp.task('styles:app', function() {
-    gulp.src(config.paths.src.css)
+    return gulp.src(config.paths.src.css)
         .pipe(concat('style.css'))
         .pipe(gulp.dest(config.paths.dist.css));
 });
 
 gulp.task('styles:minify', function() {
-    gulp.src(config.paths.src.css)
+    return gulp.src(config.paths.src.css)
         .pipe(minifyCss())
         .pipe(concat('style.css'))
         .pipe(gulp.dest(config.paths.dist.css));
@@ -85,12 +83,12 @@ gulp.task('styles:minify', function() {
  * Copy needed files.
  */
 gulp.task('copy:images', function() {
-    gulp.src(config.paths.src.img)
+    return gulp.src(config.paths.src.img)
         .pipe(gulp.dest(config.paths.dist.img));
 });
 
 gulp.task('copy:fonts', function() {
-    gulp.src(config.paths.src.fonts)
+    return gulp.src(config.paths.src.fonts)
         .pipe(gulp.dest(config.paths.dist.fonts));
 });
 

@@ -2,7 +2,6 @@
   "name": "slider-dczapiewski",
   "version": "1.0.0",
   "devDependencies": {
-    "amd-optimize": "^0.6.1",
     "bower": "^1.5.3",
     "gulp": "^3.9.0",
     "gulp-clean": "^0.3.1",
