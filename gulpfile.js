@@ -52,9 +52,9 @@ gulp.task('scripts-prod', ['scripts:requirejs', 'scripts:prod']);
  *  Minify and concat scripts based on AMD.
  */
 gulp.task('scripts:optimize', function() {
-    return gulp.src(config.paths.dist.amdConfig)
+    return gulp.src(config.paths.app)
         .pipe(rjs({
-            mainConfigFile: config.paths.dist.amdConfig,
+            mainConfigFile: config.paths.app,
             optimize: 'uglify',
             out: 'app.js'
         })).on('error', notify.onError(function(error) {

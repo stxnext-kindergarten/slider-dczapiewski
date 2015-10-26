@@ -22,9 +22,9 @@ exports.paths = {
     dist: {
         root: 'dist',
         js: 'dist/js',
-        amdConfig: 'dist/js/main.js',
         css: 'dist/css',
         img: 'dist/img',
         fonts: 'dist/fonts'
-    }
+    },
+    app: 'dist/js/main.js'
 };
