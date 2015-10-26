@@ -35,7 +35,7 @@ gulp.task('scripts:requirejs', function() {
 });
 
 gulp.task('scripts:dev', function() {
-    gulp.src(config.paths.src.js)
+    return gulp.src(config.paths.src.js)
         .pipe(gulpif(/\.coffee$/, coffee()))
         .pipe(gulp.dest('dist/js'));
 });
@@ -94,7 +94,7 @@ gulp.task('requireem', function() {
             return error.message;
         }))
         .pipe(gulp.dest('dist/js'));
-})
+});
 
 /**
  * Prepare needed resources.
@@ -103,7 +103,7 @@ gulp.task('dev', function(cb) {
     runSequence(
         ['clean', 'component:install'],
         ['scripts-dev', 'styles:app', 'copy:images', 'copy:fonts'],
-        //'requireem',
+        'requireem',
         cb
     );
 });
