@@ -25,7 +25,7 @@ Example:
     $('#gallery').slider();
 ###
 
-define 'slider', ['jquery'], (jquery) ->
+define 'slider', ->
 
     Slider = ($element, options) ->
         wrapper = $ '<div class="slideshow" />'
