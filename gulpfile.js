@@ -4,14 +4,14 @@ var gulp = require('gulp'),
     minifyCss = require('gulp-minify-css'),
     concat = require('gulp-concat'),
     clean = require('gulp-clean'),
-    config = require('./config'),
     runSequence = require('run-sequence'),
     shell = require('gulp-shell'),
     gulpif = require('gulp-if'),
     coffee = require('gulp-coffee'),
     rjs = require('gulp-requirejs-optimize'),
     notify = require('gulp-notify'),
-    expect = require('gulp-expect-file');
+    expect = require('gulp-expect-file'),
+    config = require('./config');
 
 /**
  * Clean distribution files.
@@ -50,13 +50,13 @@ gulp.task('scripts-dev', ['scripts:requirejs', 'scripts:dev']);
 gulp.task('scripts-prod', ['scripts:requirejs', 'scripts:prod']);
 
 /**
- *  Minify and concat scripts, yet no like of it happen.
+ *  Minify and concat scripts based on AMD.
  */
 gulp.task('scripts:optimize', function() {
-    gulp.src('dist/js/main.js')
-        .pipe(expect('dist/js/main.js'))
+    gulp.src(config.paths.dist.amdConfig)
+        .pipe(expect(config.paths.dist.amdConfig))
         .pipe(rjs({
-            mainConfigFile: 'dist/js/main.js',
+            mainConfigFile: config.paths.dist.amdConfig,
             optimize: 'uglify',
             out: 'app.js'
         })).on('error', notify.onError(function(error) {
