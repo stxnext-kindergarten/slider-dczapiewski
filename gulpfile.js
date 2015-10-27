@@ -49,18 +49,30 @@ gulp.task('scripts-dev', ['scripts:requirejs', 'scripts:dev']);
 gulp.task('scripts-prod', ['scripts:requirejs', 'scripts:prod']);
 
 /**
- *  Minify and concat scripts based on AMD.
+ *  Minify and concat scripts.
  */
 gulp.task('scripts:optimize', function() {
     return gulp.src(config.paths.app)
         .pipe(rjs({
-            //mainConfigFile: config.paths.app,
+            mainConfigFile: config.paths.app,
             optimize: 'uglify',
             out: 'app.js'
         })).on('error', notify.onError(function(error) {
             return error.message;
         }))
         .pipe(gulp.dest(config.paths.dist.js));
+
+
+        /*
+        DOESN'T WORK TOO
+
+        rjs({
+            mainConfigFile: config.paths.app,
+            optimize: 'uglify',
+            out: 'app.js'
+        })
+        .pipe(gulp.dest(config.paths.dist.js));
+        */
 });
 
 /**
