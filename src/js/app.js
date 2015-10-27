@@ -6,9 +6,21 @@ require.config({
         'jQuery': {
             exports: '$'
         }
-    }
-})
+    },
+    packages: [
+    	{
+    		name: 'cs',
+    		location: 'src/components/require-cs',
+    		main: 'cs'
+    	},
+    	{
+    		name: 'cofee-script',
+    		location: 'src/components/coffeescript',
+    		main: 'extras/cofee-script'
+    	}
+    ]
+});
 
-require(['slider.jquery'], function(slider) {
+require(['cs!slider.jquery'], function(slider) {
     $('#views-slides, #animals-slides').slider();
 });
