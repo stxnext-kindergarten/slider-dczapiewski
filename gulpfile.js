@@ -4,17 +4,19 @@ var gulp = require('gulp'),
     minifyCss = require('gulp-minify-css'),
     concat = require('gulp-concat'),
     clean = require('gulp-clean'),
-    config = require('./config'),
     runSequence = require('run-sequence'),
     shell = require('gulp-shell'),
     gulpif = require('gulp-if'),
-    coffee = require('gulp-coffee');
+    coffee = require('gulp-coffee'),
+    rjs = require('gulp-requirejs-optimize'),
+    notify = require('gulp-notify'),
+    config = require('./config');
 
 /**
  * Clean distribution files.
  */
 gulp.task('clean', function() {
-    gulp.src(config.paths.dist.root, {read: false})
+    return gulp.src(config.paths.dist.root, {read: false})
         .pipe(clean({force: true}));
 });
 
@@ -26,32 +28,45 @@ gulp.task('component:install', shell.task('bower install'));
 /**
  * Generate scripts.
  */
-gulp.task('script:dev', function() {
-    gulp.src(config.paths.src.js)
-        .pipe(gulpif(/\.coffee$/, coffee()))
-        .pipe(concat('app.js'))
+gulp.task('scripts:requirejs', function() {
+    return gulp.src(config.paths.src.requirejs)
         .pipe(gulp.dest(config.paths.dist.js));
 });
 
-gulp.task('script:prod', function() {
-    gulp.src(config.paths.src.js)
+gulp.task('scripts:dev', function() {
+    return gulp.src(config.paths.src.js)
         .pipe(gulpif(/\.coffee$/, coffee()))
-        .pipe(uglify())
+                .pipe(uglify())
         .pipe(concat('app.js'))
+        .pipe(gulp.dest('dist/js'));
+});
+
+gulp.task('scripts:prod', function() {
+    return gulp.src(config.paths.app)
+        .pipe(rjs({
+            mainConfigFile: config.paths.app,
+            optimize: 'uglify',
+            out: 'app.js'
+        })).on('error', notify.onError(function(error) {
+            return error.message;
+        }))
         .pipe(gulp.dest(config.paths.dist.js));
 });
+
+gulp.task('scripts-dev', ['scripts:requirejs', 'scripts:dev']);
+gulp.task('scripts-prod', ['scripts:requirejs', 'scripts:prod']);
 
 /**
  * CSS styles.
  */
 gulp.task('styles:app', function() {
-    gulp.src(config.paths.src.css)
+    return gulp.src(config.paths.src.css)
         .pipe(concat('style.css'))
         .pipe(gulp.dest(config.paths.dist.css));
 });
 
 gulp.task('styles:minify', function() {
-    gulp.src(config.paths.src.css)
+    return gulp.src(config.paths.src.css)
         .pipe(minifyCss())
         .pipe(concat('style.css'))
         .pipe(gulp.dest(config.paths.dist.css));
@@ -61,12 +76,12 @@ gulp.task('styles:minify', function() {
  * Copy needed files.
  */
 gulp.task('copy:images', function() {
-    gulp.src(config.paths.src.img)
+    return gulp.src(config.paths.src.img)
         .pipe(gulp.dest(config.paths.dist.img));
 });
 
 gulp.task('copy:fonts', function() {
-    gulp.src(config.paths.src.fonts)
+    return gulp.src(config.paths.src.fonts)
         .pipe(gulp.dest(config.paths.dist.fonts));
 });
 
@@ -76,7 +91,7 @@ gulp.task('copy:fonts', function() {
 gulp.task('dev', function(cb) {
     runSequence(
         ['clean', 'component:install'],
-        ['script:dev', 'styles:app', 'copy:images', 'copy:fonts'],
+        ['scripts-dev', 'styles:app', 'copy:images', 'copy:fonts'],
         cb
     );
 });
@@ -84,7 +99,7 @@ gulp.task('dev', function(cb) {
 gulp.task('prod', function(cb) {
     runSequence(
         ['clean', 'component:install'],
-        ['script:prod', 'styles:app', 'styles:minify', 'copy:images', 'copy:fonts'],
+        ['scripts-prod', 'styles:app', 'styles:minify', 'copy:images', 'copy:fonts'],
         cb
     );
 });

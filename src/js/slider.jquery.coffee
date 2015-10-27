@@ -26,7 +26,8 @@ Example:
 ###
 
 
-(($) ->
+define ['jQuery'], (jquery) ->
+
     Slider = ($element, options) ->
         wrapper = $ '<div class="slideshow" />'
         $element.wrap wrapper
@@ -110,4 +111,3 @@ Example:
             new Slider $(@), options
 
         return @
-) jQuery

@@ -1,5 +1,6 @@
 exports.paths = {
     src: {
+        requirejs: 'src/components/requirejs/require.js',
         js: [
             'src/components/jquery/dist/jquery.js',
             'src/components/bootstrap/dist/js/bootstrap.js',
@@ -24,5 +25,6 @@ exports.paths = {
         css: 'dist/css',
         img: 'dist/img',
         fonts: 'dist/fonts'
-    }
+    },
+    app: 'src/js/app.js'
 };
