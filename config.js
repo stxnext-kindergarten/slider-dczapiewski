@@ -26,5 +26,5 @@ exports.paths = {
         img: 'dist/img',
         fonts: 'dist/fonts'
     },
-    app: 'dist/js/app.js'
+    app: 'src/js/app.js'
 };
