@@ -26,7 +26,7 @@ Example:
 ###
 
 
-define ['jquery'], (jquery) ->
+define ['jQuery'], (jquery) ->
 
     Slider = ($element, options) ->
         wrapper = $ '<div class="slideshow" />'

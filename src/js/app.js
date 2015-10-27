@@ -1,6 +1,6 @@
 require.config({
     paths: {
-        'jQuery': '../components/jquery/dist/jquery.js'
+        'jQuery': '../components/jquery/dist/jquery'
     },
     shim: {
         'jQuery': {
@@ -14,9 +14,9 @@ require.config({
     		main: 'cs'
     	},
     	{
-    		name: 'cofee-script',
+    		name: 'coffee-script',
     		location: '../components/coffeescript',
-    		main: 'extras/cofee-script'
+    		main: 'extras/coffee-script'
     	}
     ]
 });

@@ -36,22 +36,12 @@ gulp.task('scripts:requirejs', function() {
 gulp.task('scripts:dev', function() {
     return gulp.src(config.paths.src.js)
         .pipe(gulpif(/\.coffee$/, coffee()))
+                .pipe(uglify())
+        .pipe(concat('app.js'))
         .pipe(gulp.dest('dist/js'));
 });
 
 gulp.task('scripts:prod', function() {
-    return gulp.src(config.paths.src.js)
-        .pipe(gulpif(/\.coffee$/, coffee()))
-        .pipe(gulp.dest('dist/js'));
-});
-
-gulp.task('scripts-dev', ['scripts:requirejs', 'scripts:dev']);
-gulp.task('scripts-prod', ['scripts:requirejs', 'scripts:prod']);
-
-/**
- *  Minify and concat scripts.
- */
-gulp.task('scripts:optimize', function() {
     return gulp.src(config.paths.app)
         .pipe(rjs({
             mainConfigFile: config.paths.app,
@@ -61,19 +51,10 @@ gulp.task('scripts:optimize', function() {
             return error.message;
         }))
         .pipe(gulp.dest(config.paths.dist.js));
-
-
-        /*
-        DOESN'T WORK TOO
-
-        rjs({
-            mainConfigFile: config.paths.app,
-            optimize: 'uglify',
-            out: 'app.js'
-        })
-        .pipe(gulp.dest(config.paths.dist.js));
-        */
 });
+
+gulp.task('scripts-dev', ['scripts:requirejs', 'scripts:dev']);
+gulp.task('scripts-prod', ['scripts:requirejs', 'scripts:prod']);
 
 /**
  * CSS styles.
@@ -111,7 +92,6 @@ gulp.task('dev', function(cb) {
     runSequence(
         ['clean', 'component:install'],
         ['scripts-dev', 'styles:app', 'copy:images', 'copy:fonts'],
-        'scripts:optimize',
         cb
     );
 });
@@ -120,7 +100,6 @@ gulp.task('prod', function(cb) {
     runSequence(
         ['clean', 'component:install'],
         ['scripts-prod', 'styles:app', 'styles:minify', 'copy:images', 'copy:fonts'],
-        'scripts:optimize',
         cb
     );
 });
