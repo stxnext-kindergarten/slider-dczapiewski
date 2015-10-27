@@ -6,4 +6,4 @@ require.config
             exports: '$'
 
 require ['slider.jquery'], (slider) ->
-    $('#views-slides, #animals-slides').slider();
+    $('#views-slides, #animals-slides').slider()
